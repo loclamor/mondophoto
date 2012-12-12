@@ -1,0 +1,6 @@
+RewriteEngine on
+RewriteRule ^([a-z]*)-([0-9]+)\.html$ index.php?page=$1&id=$2 [L]
+RewriteRule ^([a-z]*)-([0-9]+)-([a-z]*)\.html$ index.php?page=$1&id=$2 [L]
+RewriteRule ^([a-z_]*)\.html$ index.php?continent=$1 [L]
+RewriteRule ^([a-z_]*)-([a-z_]*)\.html$ index.php?continent=$1&pays=$2 [L]
+RewriteRule ^([a-z_]*)-([a-z_]*)-([a-z_]*)\.html$ index.php?continent=$1&pays=$2&lieu=$3 [L]

@@ -1,0 +1,484 @@
+@CHARSET "ISO-8859-1";
+
+body {
+	margin: auto;
+	width: 1040px;
+	font-family: sans-serif;
+	background-color: #f2f2f2;
+}
+
+img {
+	border: none;
+	
+}
+#alealieux img {
+	border-radius: 5px;
+	box-shadow: 5px 5px 12px #5e5e5e;
+}
+
+.conteneurPhotoPub {
+	display: inline-block;
+	padding-left: 4px;
+}
+
+a {
+	text-decoration: none;
+	color: #0000EE;
+}
+a:hover {
+	color: #0000AA;
+}
+
+div {
+	padding: 2px;
+}
+
+#sur-body { padding: 0px; padding-left: 20px; padding-right: 20px; background-image: url("./bg-body.png"); background-repeat: repeat-y; }
+
+
+#pub {
+	margin: 60px auto;
+	width: 468px;
+}
+
+#head {
+	height: 75px;
+/*	background-color: #00A9D5;*/
+	
+	border-bottom: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	
+}
+
+
+
+#sousMenu {
+	position: relative;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+	background-color: white;
+	top: 34px;
+	visibility: hidden;
+	z-index: 1000;
+}
+
+#sousMenu.continents {
+	visibility: visible;
+	width: 200px;
+	left: 117px;
+}
+
+
+
+#sousMenu.pays {
+	visibility: visible;
+	width: 200px;
+	left: 231px;
+}
+
+#sousMenu.recherche {
+	visibility: visible;
+	width: 200px;
+	left: 345px;
+}
+
+#onglets li.current {
+	border-bottom: 1px solid white;
+	background-color: white;
+}
+
+#filariane {
+	padding-top: 8px;
+	padding-left: 5px;
+	font-size: 0.8em;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+}
+
+#content {
+	padding-left: 6px;
+	padding-right: 6px;
+	padding-bottom: 8px;
+	background-color: white;
+	min-height: 800px;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+}
+
+#copyright {
+	position: relative;
+
+	top: -16px;
+	left: 2px;
+	font-size: .8em;
+}
+
+#content>h1 {
+	text-align: center;
+	color: #0000EE;
+	
+}
+
+#content>h2 {
+	margin-top: 0px;
+	text-align: center;
+	color: #0000EE;
+}
+
+#textAccueil {
+	text-align: center;
+}
+
+#miniCarte {
+	
+	border: 1px solid black;
+	width: 250px;
+	height: 250px;
+	background-repeat: no-repeat;
+	overflow: hidden;
+	margin-bottom: 5px;
+	border-radius: 5px;
+	box-shadow: 5px 5px 12px #5e5e5e;
+}
+#infosVille {
+	float: right;
+	width: 254px;
+	margin-right: 6px;
+}
+
+#miniCarte>img {
+	position: relative;
+	top: 118px;
+	left: 118px;
+}
+
+.conteneurSvg {
+	margin: 5px 0 5px 0;
+	border: 1px solid black;
+	border-radius: 5px;
+	box-shadow: 1px 1px 12px #5e5e5e;
+	padding: 0;
+}
+
+#conteneurOptionAffichageSvg {
+	padding: 5px;
+	border-bottom: 1px solid black;
+	border-radius: 5px;
+}
+
+#conteneurOptionAffichageSvg>span {
+	cursor: pointer;
+}
+
+#optionAffichageSvg {
+	text-align: center;
+	margin: 0;
+	padding: 0;
+}
+#optionAffichageSvg label {
+	cursor: pointer;
+}
+
+#monde {
+	background-image: url("../images/carte-monde.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 439px;
+}
+
+#foot {
+	height: 30px;
+/*	background-color: #00A9D5;*/
+	
+	text-align: center;
+	font-size: .8em;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+}
+#dialog-contact {
+	visibility: hidden;
+}
+
+#dialog-contact label {
+	display: inline-block;
+	width: 200px;
+}
+#dialog-contact input {
+	width: 350px;
+}
+#dialog-contact textarea {
+	width: 550px;
+	height: 200px;
+}
+#dialog-contact div {
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	display: inline-block;
+}
+#tableMessages {
+	border-spacing: 0;
+	width: 100%;
+}
+#tableMessages td {
+	cursor: pointer;
+}
+#tableMessages .messageLu td {
+	border-bottom: 1px solid black;
+}
+#tableMessages .messageNonLu td {
+	background-color: #87cefa;
+	border-bottom: 1px solid black;
+}
+#tableMessages .messageNonLu td.nom {
+	background-image: url("mail-unread-new.png");
+	background-repeat:no-repeat;
+	padding-left: 26px;
+	width: 255px;
+}
+#tableMessages .messageLu td.nom {
+	background-image: url("mail-read.png");
+	background-repeat:no-repeat;
+	padding-left: 26px;
+	width: 255px;
+}
+#tableMessages td.date {
+	width: 155px;
+}
+
+#tableMessages .reading td {
+	background-color: #1e90ff;
+}
+
+
+area, area.merveille, area.monument {
+	cursor: pointer;
+}
+
+#tooltip {
+	visibility: hidden;
+	position: absolute;
+	padding: 5px;
+	min-width: 100px;
+	min-height: 20px;
+	border-radius: 5px;
+	box-shadow: 5px 5px 12px #5e5e5e;
+}
+
+#tooltip>.merveille, #tooltip>.monument {
+	font-weight: normal;
+	font-size: .6em;
+	color: black;
+}
+
+#tooltip>.ville, #tooltip>.pays {
+	font-weight: bold;
+}
+
+#tooltip.tooltipShow {
+	visibility: visible;
+	
+	border: 1px solid black;
+	background-color: white;
+	z-index: 999;
+	top: 150px;
+	left: 150px;
+}
+
+#tooltip>ul {
+	color: black;
+	font-size: .6em;
+	padding-left: 20px;
+	font-weight: normal;
+	margin: 0px;
+}
+
+.conteneur {
+	display: inline-block;
+	width: 715px;
+	margin-bottom: 5px;
+}
+
+.conteneur>.cadreGauche {
+	float: left;
+	margin: 0px;
+	padding: 5px;
+	font-size: .8em;
+}
+
+.conteneur>.cadreGauche>.cadrePhoto {
+	
+	margin: 0px;
+	margin-bottom: 5px;
+/*	min-height: 150px;*/
+	width: 200px;
+	border: 1px solid black;
+	padding: 0px;
+	cursor: pointer;
+	border-radius: 5px;
+	box-shadow: 5px 5px 12px #5e5e5e;
+}
+.conteneur>.cadreGauche>.cadrePhoto>.nbPhoto {
+	position: absolute;
+	height: 15px;
+	width: 20px;
+	background-color: rgba(0, 0, 0, 0.50);
+	color: white;
+	text-align: center;
+	cursor: pointer;
+	border-radius: 0px 0px 7px 0px;
+}
+
+.conteneur>.cadreTexte {
+	margin: 5px;
+	margin-left: 165px;
+	min-height: 150px;
+}
+
+.conteneur>.cadreTexte>h1 {
+	font-size: 20px;
+	font-weight: bold;
+	margin: 0px;
+	padding: 0px;
+}
+
+#tableMetro {
+	float: right;
+	width: 700px;
+	margin-bottom: 20px;
+}
+
+#tableLiens td {
+	min-width: 150px;
+}
+
+.btnLienMort {
+	visibility: hidden;
+}
+tr:HOVER .btnLienMort {
+	visibility: visible;
+}
+
+.monument {
+	fill: green;
+}
+
+.merveille {
+	fill: #00FF00;
+}
+
+.noVisible {
+	visibility: hidden;
+}
+
+
+/*Administration*/
+
+#admPaysCarte {
+	cursor: crosshair;
+}
+
+fieldset label {
+	margin-left: 2px;
+}
+
+.redimBtn, .backBtn {
+	position: relative;
+	top: 3px;
+	left: -197px;
+	margin-right: -13px;
+}
+.deleteBtn {
+	position: relative;
+	top: 3px;
+	left: -178px;
+	margin-right: -13px;
+}
+
+/* visioneuse */
+#fondVisioneuse {
+	background-color: rgba(0, 0, 0, 0.85);
+	position: fixed;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	z-index: 1010;
+/*	visibility: hidden;*/
+	display: none;
+}
+
+#cadreVisioneuse {
+
+    height: 500px;
+    margin: 10% auto auto;
+    width: 800px;
+    margin-top: 5%;
+}
+
+#visioneuse, #visioneuseM {
+	width: 790px;
+	margin: auto;
+	height: 480px;
+}
+
+#visioneuseM {
+	margin-top:250px;
+	margin-bottom: 50px;
+}
+
+#visioneuse>#loader, #visioneuseM>#loader {
+	display: block;
+	margin: 176px auto auto;
+}
+
+#slider, #slider li {
+    width: 700px;
+    height: 490px;
+    font-size: 0.8em;
+    list-style: none;
+    text-align: center;
+}
+
+#slider li>h2 {
+	height: 25px;
+	font-weight: bold;
+	margin: 1px;
+	margin-right: 21px;
+	vertical-align: middle;
+	font-size: 2em;
+}
+
+.anythingSlider, .anythingWindow {
+	padding: 0px;	
+}
+
+.anythingWindow {
+	background-color: white;
+}
+
+.anythingControls {
+	padding: 0px;
+}
+
+#closer {
+	position: relative;
+	top: 19px;
+	left: 733px;
+	width: 14px;
+	height: 14px;
+	background-image: url("close.png");
+	background-position: top;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	padding: 0px;
+	z-index: 333;
+}
+
+#closer:HOVER {
+	background-position: bottom;
+}

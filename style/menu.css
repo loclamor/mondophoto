@@ -1,0 +1,152 @@
+@CHARSET "ISO-8859-1";
+
+#head {
+	padding: 0px;
+	height: 200px;
+}
+
+#menu {
+	background-image: url("./fond-logo.png");
+	background-repeat: no-repeat;
+	height: 220px;
+	position: relative;
+	left: -100px;
+	top: -10px;
+	margin: 0;
+	padding: 0;
+	padding-left: 220px;
+}
+
+#onglets {
+	padding : 0;
+	margin : 0;
+	position : absolute;
+	padding-right: 40px;
+	padding-left: 40px;
+	margin-left: 5px;
+	height: 40px;
+	font : bold 12px;
+	list-style-type : none;
+	border-radius: 5px 5px 5px 5px;
+	background-color: #F4F9FD;
+}
+
+#onglets li
+{
+    float : left;
+ 	height: 28px;
+    min-width: 100px;
+    margin: 5px;
+    background-color: #F4F9FD;
+    border : 1px solid black;
+    text-align: center;
+    color: #0000EE;
+    border-radius: 5px;
+    padding-top: 4px
+    vertical-align: middle;
+}
+
+#onglets a
+{
+    display : block;
+    text-decoration : none;
+}
+
+#onglets li:hover
+{
+    background : #fff;
+    color: #0000AA;
+    cursor: pointer;
+}
+
+#menuContinents {
+	width: 100px;
+}
+
+#conteneurMenuContinents {
+	visibility: hidden;
+	background-image: url("./liste-top.png");
+	background-repeat: no-repeat;
+	background-position: 1px -1px;
+	padding: 0px;
+	padding-top: 10px;
+	z-index: 10;
+	position: relative;
+	top: 2px;
+}
+#menuListeContinents {
+	
+	border: 0px;
+	margin-top: 0px;
+	list-style-type: none;
+	width: 150px;
+	padding: 0px;
+	border-radius: 5px;
+	box-shadow: 5px 5px 12px #5e5e5e;
+}
+#menuListeContinents li {
+	float : none;
+    height : 21px;
+    min-width: none;
+    background-color: #F4F9FD;
+    margin : 0px !important; 
+    padding: 0px;
+    border : 0px;
+    text-align: left;
+    color: black;
+    padding-left: 5px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-radius: 0px;
+    box-shadow: none;
+
+}
+#menuContinents:Hover #conteneurMenuContinents {
+	visibility: visible;
+}
+.conteneurMenuPays {
+	visibility: hidden;
+	padding: 0px;
+	padding-left: 10px;
+	background-image: url("./liste-left.png") ;
+	background-repeat: no-repeat;
+	background-position: -1px 1px;
+	cursor: default;
+	position:relative;
+	top: -20px;
+	left: 140px;
+	
+}
+.menuListePays {
+	border: 0px;
+	list-style-type: none;
+	min-width: 160px !important;
+	padding: 0px;
+	border-radius: 5px;
+	box-shadow: 5px 5px 12px #5e5e5e;
+}
+.menuListePays li {
+	min-width: 150px !important;
+	min-height: 21px;
+	border-right: 1px solid black !important;
+	border-left: 1px solid black !important;
+	border-radius: 0px;
+}
+.menuListePays_Top, .menuListeContinents_Top {
+	border-top: 1px solid black !important;
+	border-radius: 0px 5px 0px 0px !important;
+}
+
+.menuListePays_Bottom, .menuListeContinents_Bottom {
+	border-bottom: 1px solid black !important;
+	border-radius: 0px 0px 5px 5px !important;
+	
+}
+.menuListePays_Top.menuListePays_Bottom, .menuListeContinents_Top.menuListeContinents_Bottom {
+	border: 1px solid black !important;
+	border-radius: 0px 5px 5px 5px !important;
+	height: 26px !important;
+}
+#menuListeContinents li:hover .conteneurMenuPays {
+	visibility: visible;
+}

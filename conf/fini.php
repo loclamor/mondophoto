@@ -1,0 +1,2 @@
+<?php
+SQL::getInstance()->BDDUnconnect();
