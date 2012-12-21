@@ -97,9 +97,9 @@ class Site {
 			$this->addElement('title', SITE_NAME);
 			//creation du menu
 			$url = new Url(true);
-			$this->addElement('menu', "<li><a href='".$url->getUrl()."'>Accueil</a></li>");
+			//$this->addElement('menu', "<li><a href='".$url->getUrl()."'>Accueil</a></li>");
 			
-			$listeContinents = '<div id="conteneurMenuContinents"><ul id="menuListeContinents">';
+			$listeContinents = '<ul id="menuListeContinents" class="dropdown-menu">';
 			$continents = GestionContinents::getInstance()->getContinents('nom');
 			if($continents) {
 				$i = 0;
@@ -107,7 +107,7 @@ class Site {
 				foreach ($continents as $continent) {
 					if($continent instanceof Continent) {
 						
-						$listeContinentPays = '<div class="conteneurMenuPays"><ul class="menuListePays">';
+						$listeContinentPays = '<ul class="menuListePays dropdown-menu">';
 						$listePays = GestionPays::getInstance()->getPaysContinent($continent->getId(),'nom');
 						if($listePays) {
 							$j = 0;
@@ -124,15 +124,15 @@ class Site {
 									if($j == $nbPays - 1) {
 										$class .= ' menuListePays_Bottom';
 									}
-									$listeContinentPays .= '<li class="'.$class.'"><a href="'.$urlPays->getUrl().'">'.$pays->getNom().'</a></li>';
+									$listeContinentPays .= '<li class="'.$class.' dropdown"><a href="'.$urlPays->getUrl().'">'.$pays->getNom().'</a></li>';
 								}
 								$j++;
 							}
 						}
 						else {
-							$listeContinentPays .= '<li class="menuListePays_Top menuListePays_Bottom">Pas de pays</li>';
+							$listeContinentPays .= '<li class="menuListePays_Top menuListePays_Bottom dropdown">&nbsp;Pas de pays</li>';
 						}
-						$listeContinentPays .= '</ul></div>';
+						$listeContinentPays .= '</ul>';
 						$class = '';
 						if($i == 0){
 							$class .= ' menuListeContinents_Top';
@@ -143,27 +143,19 @@ class Site {
 						$urlCont = new Url();
 						$urlCont->addParam('page', 'continent');
 						$urlCont->addParam('id', $continent->getId());
-						$listeContinents .= '<li class="'.$class.'"><a href="'.$urlCont->getUrl().'">'.$continent->getNom().'</a>'.$listeContinentPays.'</li>';
+						$listeContinents .= '<li class="'.$class.' dropdown-submenu"><a href="'.$urlCont->getUrl().'">'.$continent->getNom().'</a>'.$listeContinentPays.'</li>';
 					}
 					$i++;
 				}
 			}
-			$listeContinents .= '</ul></div>';
-			
-			$this->addElement('menu', "<li id='menuContinents'>Continents".$listeContinents."</li>");
-		//	$this->addElement('menu', "<li id='menuPays'>Pays</li>");
+			$listeContinents .= '</ul>';
+			$urlAccueil = new Url(true);
+			$this->addElement('menu', "<li id='menuContinents' class=' btn-group'><div class='btn'><a href='".$urlAccueil->getUrl()."' >Monde </a></div><div class='btn dropdown-toggle btn-dropdown-continents' data-toggle='dropdown'><span class='caret'></span></div>".$listeContinents."</li>");
+			$this->addElement('menu', "<li class='divider-vertical'></li>");
 			$url->addParam('page', 'plansmetros');
-			$this->addElement('menu', "<li><a href='".$url->getUrl()."'>Plans des Métros</a></li>");
+			$this->addElement('menu', "<li ><div class='btn'><a href='".$url->getUrl()."'>Plans des Métros</a></div></li>");
 			
-			$urlRecherche = new Url(true);
-			$urlRecherche->addParam('page', 'recherche');
-			$this->addElement('menu', "<li id='menuRecherche'>");
-				$this->addElement('menu', "<form action='".$urlRecherche->getUrl()."' method='POST'>");
-					$this->addElement('menu', "<input type='hidden' name='page' value='recherche' />");
-					$this->addElement('menu', "<input type='text' name='query' id='searchQuery' size='10' style='color: #AAA;' value='Rechercher...' />");
-					$this->addElement('menu', "<input type='submit' value='&gt;'/>");
-				$this->addElement('menu', "</form>");
-			$this->addElement('menu', "</li>");
+			
 			
 			
 			//on crée les éléments généraux du footer
@@ -257,7 +249,7 @@ class Site {
 				$this->addElement('head', '<img src="style/logo_'.strtoupper(substr($this->couleur,1)).'.png" height="75px" />');
 				
 			$this->addElement('head', '</div>');
-			$this->addElement('head', '<div class="fb-like" style="position: absolute; top: 63px; right: 8.25%;" data-href="http://www.mondophoto.fr" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false"></div>');
+//			$this->addElement('head', '<div class="fb-like" style="position: absolute; top: 63px; right: 8.25%;" data-href="http://www.mondophoto.fr" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false"></div>');
 			$nbAdmQuery = SQL::getInstance()->getNbAdmQuery();
 			$nbQuery = SQL::getInstance()->getNbQuery();
 			
@@ -315,7 +307,7 @@ class Site {
 		$this->couleur = '#D1D1FF';
 	
 		
-		$this->addElement('content', '<div id="mapmonde" style="text-align:center;">');
+		$this->addElement('content', '<div id="mapmonde" class="span12">');
 			$this->addElement('content', '<img src="images/carte-monde.png" usemap="#cartemonde" />');
 			$this->addElement('content', '<map name="cartemonde" >');
 				$url = new Url();
@@ -349,7 +341,7 @@ class Site {
 			$this->addElement('content', '</map>');
 		$this->addElement('content', "</div>");
 		// les photos aleatoires
-		$this->addElement('content', '<div id="alealieux" style="text-align:center;">');
+		$this->addElement('content', '<ul id="alealieux" class="thumbnails">');
 			$lieux = GestionLieux::getInstance()->getLieuxAleatoire(4);
 			if($lieux) {
 				
@@ -393,9 +385,9 @@ class Site {
 						$tooltip .= $paysLieu->getNom();
 						$tooltip .= $ville.'</span>'.' - '.$lieu->getPronom().' '.$lieu->getNom();
 						
-						$this->addElement('content', '<div class="conteneurPhotoPub"><a href="'.$url->getUrl().'">');
+						$this->addElement('content', '<li class="span3"><div class="conteneurPhotoPub thumbnail"><a href="'.$url->getUrl().'">');
 							$this->addElement('content', '<img class="photoPub" src="'.$photo->getUrlPhotoMiniature(150,'H').'" height="150px" tooltip="'.$tooltip.'" alt="'.$lieu->getNom().'" />');
-						$this->addElement('content', '</a></div>');
+						$this->addElement('content', '</a></div></li>');
 					}
 					else {
 						$lieu = GestionLieux::getInstance()->getLieuxAleatoire(1);
@@ -539,7 +531,7 @@ class Site {
 			. "</div>");
 		}
 		
-		$this->addElement('content', "<br/><span id='copyright'><a href='".$continent->getUrlCarteFrom()."'>&copy; Daniel Dalet / d-maps.com</a></span>");
+		$this->addElement('content', "<span id='copyright'><a href='".$continent->getUrlCarteFrom()."'>&copy; Daniel Dalet / d-maps.com</a></span>");
 		$this->addElement('content','<input type="hidden" id="current" value="0"/>');
 	}
 	
@@ -560,51 +552,53 @@ class Site {
 		
 		$paysSVG = GestionPaysSVG::getInstance()->getPaysSVGPays($pays->getId());
 		if($paysSVG){
-			$this->addElement('content','<div class="conteneurSvg" style="max-height: 1250px; background-color: '.$continent->getCouleurOcean().';">');
-			$this->addElement('content','<div id="conteneurOptionAffichageSvg">');
-				$this->addElement('content','<span>Afficher :</span><br/>');
-				$this->addElement('content','<p id="optionAffichageSvg">');
-				$this->addElement('content','<input type="checkbox" id="affNomGdVilles" checked="checked">&nbsp;<label for="affNomGdVilles">les noms des grandes villes</label>');
-				$this->addElement('content',' - <input type="checkbox" id="affGdVilles" checked="checked">&nbsp;<label for="affGdVilles">les grandes villes</label>');
-				$this->addElement('content',' - <input type="checkbox" id="affAutresVilles" checked="checked">&nbsp;<label for="affAutresVilles">les autres villes</label>');
-				$this->addElement('content',' - <input type="checkbox" id="affMerveilles" checked="checked">&nbsp;<label for="affMerveilles">les merveilles</label>');
-				$this->addElement('content',' - <input type="checkbox" id="affMonuments" checked="checked">&nbsp;<label for="affMonuments">les monuments</label>');
-				$this->addElement('content','</p>');
+			$this->addElement('content','<div class="conteneurSvg span12" style="background-color: '.$continent->getCouleurOcean().';">');
+		//	$this->addElement('content','<div id="conteneurOptionAffichageSvg" class="row-fluid">');
+		//		$this->addElement('content','<span class="span12">Afficher :</span><br/>');
+				$this->addElement('content','<div id="optionAffichageSvg" class="" data-toggle="buttons-checkbox">Afficher :');
+				
+				
+				$this->addElement('content','<button id="affNomGdVilles" type="button" class="btn active optionAffichagePays">Noms grandes villes</button>');
+				$this->addElement('content','<button id="affGdVilles" type="button" class="btn active optionAffichagePays">Points grandes villes<//button>');
+				$this->addElement('content','<button id="affAutresVilles" type="button" class="btn active optionAffichagePays">Points autres villes</button>');
+				$this->addElement('content','<button id="affMerveilles" type="button" class="btn active optionAffichagePays">Points merveilles</button>');
+				$this->addElement('content','<button id="affMonuments" type="button" class="btn active optionAffichagePays">Points monuments</button>');
+				
+				
+				/*
+				
+				$this->addElement('content','<span class="span3"><label for="affNomGdVilles" class="checkbox"><input type="checkbox" id="affNomGdVilles" checked="checked">&nbsp;les noms des grandes villes</label></span>');
+				$this->addElement('content','<span class="span2"><label for="affGdVilles" class="checkbox"><input type="checkbox" id="affGdVilles" checked="checked">&nbsp;les grandes villes</label></span>');
+				$this->addElement('content','<span class="span2"><label for="affAutresVilles" class="checkbox"><input type="checkbox" id="affAutresVilles" checked="checked">&nbsp;les autres villes</label></span>');
+				$this->addElement('content','<span class="span2"><label for="affMerveilles" class="checkbox"><input type="checkbox" id="affMerveilles" checked="checked">&nbsp;les merveilles</label></span>');
+				$this->addElement('content','<span class="span2"><label for="affMonuments" class="checkbox"><input type="checkbox" id="affMonuments" checked="checked">&nbsp;les monuments</label></span>');
+				*/
+				
+				$this->addElement('content','</div>');
 				$script = '<script>'
 					. '$(document).ready(function(){'
-					. '	$("#conteneurOptionAffichageSvg>span").html("Afficher...");'
-					. '	$("#optionAffichageSvg").hide();'
-					. '	$("#conteneurOptionAffichageSvg>span").click(function(){'
-					. '		if($(this).html() == "Afficher..."){'
-					. '			$(this).html("Afficher :");'
-					. '			$("#optionAffichageSvg").show();'
-					. '		}'
-					. '		else{'
-					. '			$(this).html("Afficher...");'
-					. '			$("#optionAffichageSvg").hide();'
-					. '		}'
-					. '	});'
+					
 					. '	$("#affNomGdVilles").click(function(){'
-					. '		if(!$("#affNomGdVilles").is(":checked")){'
+					. '		if($("#affNomGdVilles").hasClass("active")){'
 					. '			$("text.ville_1").css("visibility","hidden");'
 					. '			$("text.ville_2").css("visibility","hidden");'
 					. '		}'
 					. '		else{'
-					. '			if($("#affGdVilles").is(":checked")){'
+					. '			if($("#affGdVilles").hasClass("active")){'
 					. '				$("text.ville_1").css("visibility","visible");'
 					. '				$("text.ville_2").css("visibility","visible");'
 					. '			}'
 					. '		}'
 					. '	});'
 					. '	$("#affGdVilles").click(function(){'
-					. '		if(!$("#affGdVilles").is(":checked")){'
+					. '		if($("#affGdVilles").hasClass("active")){'
 					. '			$(".ville_1").css("visibility","hidden");'
 					. '			$(".ville_2").css("visibility","hidden");'
 					. '		}'
 					. '		else{'
 					. '			$("circle.ville_1").css("visibility","visible");'
 					. '			$("circle.ville_2").css("visibility","visible");'
-					. '			if($("#affNomGdVilles").is(":checked")){'
+					. '			if($("#affNomGdVilles").hasClass("active")){'
 					. '				$("text.ville_1").css("visibility","visible");'
 					. '				$("text.ville_2").css("visibility","visible");'
 					. '			}'
@@ -612,7 +606,7 @@ class Site {
 					. '	});'
 					. '});'
 					. '	$("#affAutresVilles").click(function(){'
-					. '		if(!$("#affAutresVilles").is(":checked")){'
+					. '		if($("#affAutresVilles").hasClass("active")){'
 					. '			$(".ville_3").css("visibility","hidden");'
 					. '			$(".ville_4").css("visibility","hidden");'
 					. '			$(".ville_5").css("visibility","hidden");'
@@ -624,7 +618,7 @@ class Site {
 					. '		}'
 					. '	});'
 					. '	$("#affMerveilles").click(function(){'
-					. '		if(!$("#affMerveilles").is(":checked")){'
+					. '		if($("#affMerveilles").hasClass("active")){'
 					. '			$(".merveille").css("visibility","hidden");'
 					. '		}'
 					. '		else{'
@@ -632,7 +626,7 @@ class Site {
 					. '		}'
 					. '	});'
 					. '	$("#affMonuments").click(function(){'
-					. '		if(!$("#affMonuments").is(":checked")){'
+					. '		if($("#affMonuments").hasClass("active")){'
 					. '			$(".monument").css("visibility","hidden");'
 					. '		}'
 					. '		else{'
@@ -643,7 +637,7 @@ class Site {
 				
 				$this->addElement('content', $script);
 				
-			$this->addElement('content','</div>');
+		//	$this->addElement('content','</div>');
 			
 			
 			$this->getCartePaysSVG($pays);
@@ -686,7 +680,7 @@ class Site {
 		}
 		
 		$this->addElement('content', "<br/><span id='copyright'><a href='".$pays->getUrlCarteFrom()."'>&copy; Daniel Dalet / d-maps.com</a></span>");
-		$this->addElement('content','<input type="hidden" id="current" value="0"/>');
+//		$this->addElement('content','<input type="hidden" id="current" value="0"/>');
 	}
 	
 	public function getCartePaysSVG(Pays $pays, array $centerOn = null, $addXlink = true, $addCityName = true) {
@@ -823,8 +817,18 @@ class Site {
 								
 							}
 							else {
+							$url = new Url();
+								$url->addParam('page', $lieu->getType());
+								$url->addParam('id', $lieu->getId());
+								$chaineUrl = '';
+								$EndChaineUrl = '';
+								if($addXlink) {
+									$chaineUrl = '<a xlink:href="'.$url->getUrl().'" data-toggle="modal" href="ajax.php?page=getNewVisioneuse&idLieu='.$lieu->getId().'" data-target="#visio_'.$lieu->getId().'">';
+									$EndChaineUrl = '</a>';
+								}
 								//$this->addElement('content', '<area   shape="circle" coords="'.$lieu->getCoordonnees().',5"  alt="'.$lieu->getId().'" class="'.$lieu->getType().$class.'" >');
-								$this->addElement('content', '<circle class="'.$lieu->getType().'" name="'.$lieu->getPronom().' '.$lieu->getNom().'" cx="'.$lieu->getCx().'" cy="'.$lieu->getCy().'" r="0.55" stroke="black"  stroke-width="0.1px" alt="'.$lieu->getId().'"/>');
+								$this->addElement('content',  $chaineUrl.'<circle class="'.$lieu->getType().'" name="'.$lieu->getPronom().' '.$lieu->getNom().'" cx="'.$lieu->getCx().'" cy="'.$lieu->getCy().'" r="0.55" stroke="black"  stroke-width="0.1px" alt="'.$lieu->getId().'"/>'.$EndChaineUrl);
+								$lieuxVisio[] = $lieu->getId();
 							}
 						}
 					}
@@ -835,6 +839,23 @@ class Site {
 		}
 		$this->addElement('content','</g>');
 		$this->addElement('content','</svg>');
+		
+		//on ajoute une fenêtre modale de visionnage pour chaque lieu
+		if($addXlink and isset($lieuxVisio)){
+			foreach ($lieuxVisio as $idLieu){
+				$lieu = GestionLieux::getInstance()->getLieu($idLieu);
+				if($lieu and $lieu instanceof Lieu){
+					$this->addElement('content', '<div class="modal hide fade" id="visio_'.$lieu->getId().'">');
+  						$this->addElement('content', '<div class="modal-header"> <a class="close" data-dismiss="modal">×</a>');
+    						$this->addElement('content', '<h3>'.$lieu->getPronom().' '.firstchartoupper($lieu->getNom()).'</h3>');
+  						$this->addElement('content', '</div>');
+  						$this->addElement('content', '<div class="modal-body"></div>');
+  						$this->addElement('content', '<div class="modal-footer"> <a class="btn" data-dismiss="modal">Fermer</a> </div>');
+					$this->addElement('content', '</div>');
+				}
+			}
+		}
+		
 		return $ratio;
 	}
 	
@@ -854,100 +875,117 @@ class Site {
 		$urlPays = new Url(true);
 		$urlPays->addParams(array('page' => 'pays', 'id' => $pays->getId()));
 		$this->addElement('filariane', '<a href="'.$urlPays->getUrl().'">'.$pays->getNom().'</a>');
-		$this->addElement('filariane', '');
+		$urlVille = new Url(true);
+		$urlVille->addParams(array('page' => 'ville', 'id' => $ville->getId()));
+		$this->addElement('filariane', '<a href="'.$urlVille->getUrl().'">'.$ville->getNom().'</a>');
 		
-		if(strrpos($ville->getCoordonnees(), ",") !== false) {
-			$coords = explode(',',$ville->getCoordonnees());
-			$coords[0] = $coords[0] - 125;
-			$coords[1] = $coords[1] - 125;
-		}
-		else {
-			$coords = array(0,0);
-		}
-		$this->addElement('content', '<div id="infosVille">');
-			$this->addElement('content', '<div id="miniCarte" style="background-color: '.$continent->getCouleurOcean().';">');
-				$paysSVG = GestionPaysSVG::getInstance()->getPaysSVGPays($pays->getId());
-				if($paysSVG) {
-					$this->getCartePaysSVG($pays, array($ville->getCx(),$ville->getCy()),true,false);
+		$this->addElement('content', "<div class='span12'><h1 style='color: ".$continent->getCouleur().";'>".$ville->getNom()."</h1></div>");
+		
+		$this->addElement('content', '<div class="row-fluid">');
+			$this->addElement('content', '<div class="span8">');
+			$lieuxLies = GestionLieux::getInstance()->getLieuxLies($ville->getId(),'nom');
+			if($lieuxLies) {	
+				foreach ($lieuxLies as $lieu){
+					if($lieu instanceof Lieu) {
+						$photo = GestionPhotos::getInstance()->getLieuPhoto($lieu->getId());
+						$nbPhoto = GestionPhotos::getInstance()->getNombreLieuPhoto($lieu->getId());
+						$this->addElement('content', '<div class="conteneur row-fluid">');
+							$this->addElement('content', '<div class="cadreGauche">');
+								$this->addElement('content', '<div class="cadrePhoto thumbnail" id="'.$lieu->getId().'">');
+									$this->addElement('content', '<div class="nbPhoto">'.$nbPhoto.'</div>');
+									$this->addElement('content', '<a class="" data-toggle="modal" href="ajax.php?page=getNewVisioneuse&idLieu='.$lieu->getId().'" data-target="#visio_'.$lieu->getId().'">');	
+										$this->addElement('content', '<img src="'.$photo->getUrlPhotoMiniature(200,'L').'" width="200px" />');
+									$this->addElement('content', '</a>');
+								$this->addElement('content', '</div>');
+							$this->addElement('content', '</div>');
+							$this->addElement('content', '<div class="cadreTexte">');
+								$this->addElement('content', '<h2>'.$lieu->getPronom().' '.firstchartoupper($lieu->getNom()).'</h2>');
+								$this->addElement('content', '<a name="'.$lieu->getId().'"></a>');
+								
+								$this->addElement('content', '<div class="modal hide fade" id="visio_'.$lieu->getId().'">');
+		  							$this->addElement('content', '<div class="modal-header"> <a class="close" data-dismiss="modal">×</a>');
+		    							$this->addElement('content', '<h3>'.$lieu->getPronom().' '.firstchartoupper($lieu->getNom()).'</h3>');
+		  							$this->addElement('content', '</div>');
+		  							$this->addElement('content', '<div class="modal-body"></div>');
+		  							$this->addElement('content', '<div class="modal-footer"> <a class="btn" data-dismiss="modal">Fermer</a> </div>');
+								$this->addElement('content', '</div>');
+							$this->addElement('content', '</div>');
+						$this->addElement('content', '</div>');
+						
+					}
 				}
-				else {
-					$this->addElement('content', '<img id="paysCarte" src="'.$pays->getUrlCarte().'" usemap="#mapPays" style="position: relative; left: -'.$coords[0].'px; top: -'.$coords[1].'px;"/>');
-					//affichage des Lieux
-					$this->addElement('content', '<map name="mapPays" id="mapPays" >');
-					$lieux = GestionLieux::getInstance()->getPaysLieux($pays->getId());
-					if($lieux){
-						foreach ($lieux as $lieu){
-							if($lieu instanceof Lieu){
-								if($lieu->getCoordonnees() || ($lieu->getCx() && $lieu->getCy())) {
-									$url = new Url();
-									$url->addParam('page', $lieu->getType());
-									$url->addParam('id', $lieu->getId());
-									$chaineUrl = 'href="'.$url->getUrl().'"';
-									if(!$lieu->hasLieuxLies()) {
-										$chaineUrl = '';
+			
+			}
+			
+			$this->addElement('content', '</div>');
+		
+			if(strrpos($ville->getCoordonnees(), ",") !== false) {
+				$coords = explode(',',$ville->getCoordonnees());
+				$coords[0] = $coords[0] - 125;
+				$coords[1] = $coords[1] - 125;
+			}
+			else {
+				$coords = array(0,0);
+			}
+			$this->addElement('content', '<div id="infosVille" class="span4">');
+				$this->addElement('content', '<div id="miniCarte" style="background-color: '.$continent->getCouleurOcean().';">');
+					$paysSVG = GestionPaysSVG::getInstance()->getPaysSVGPays($pays->getId());
+					if($paysSVG) {
+						$this->getCartePaysSVG($pays, array($ville->getCx(),$ville->getCy()),true,false);
+					}
+					else {
+						$this->addElement('content', '<img id="paysCarte" src="'.$pays->getUrlCarte().'" usemap="#mapPays" style="position: relative; left: -'.$coords[0].'px; top: -'.$coords[1].'px;"/>');
+						//affichage des Lieux
+						$this->addElement('content', '<map name="mapPays" id="mapPays" >');
+						$lieux = GestionLieux::getInstance()->getPaysLieux($pays->getId());
+						if($lieux){
+							foreach ($lieux as $lieu){
+								if($lieu instanceof Lieu){
+									if($lieu->getCoordonnees() || ($lieu->getCx() && $lieu->getCy())) {
+										$url = new Url();
+										$url->addParam('page', $lieu->getType());
+										$url->addParam('id', $lieu->getId());
+										$chaineUrl = 'href="'.$url->getUrl().'"';
+										if(!$lieu->hasLieuxLies()) {
+											$chaineUrl = '';
+										}
+										$this->addElement('content', '<area   shape="circle" coords="'.$lieu->getCoordonnees().',5" '.$chaineUrl.' alt="'.$lieu->getId().'">');
 									}
-									$this->addElement('content', '<area   shape="circle" coords="'.$lieu->getCoordonnees().',5" '.$chaineUrl.' alt="'.$lieu->getId().'">');
 								}
 							}
 						}
+						$this->addElement('content', '</map><img src="style/villeSelected.png" id="villeSelected" />');
+						$this->addElement('content','<input type="hidden" id="current" value="0"/>');
 					}
-					$this->addElement('content', '</map><img src="style/villeSelected.png" id="villeSelected" />');
-					$this->addElement('content','<input type="hidden" id="current" value="0"/>');
+				$this->addElement('content', '</div>');
+			
+				$liens = GestionLiens::getInstance()->getLiensLieu($ville->getId());
+				
+				if($liens) {
+					$this->addElement('content', '<span style="color:'.$this->couleur.'; font-size: 1.1em;">Liens utiles :</span>');
+					$this->addElement('content', '<ul id="liensLieu" style="margin-top: 5px;">');
+					foreach ($liens as $lien) {
+						if($lien instanceof Lien) {
+							$this->addElement('content', '<li id="lien_'.$lien->getId().'"><a href="'. $lien->getUrl() .'" target="_blank">'
+									. $lien->getNom() . '</a>&nbsp;<input type="image" src="style/delete.png" id="btnLienMort_'.$lien->getId().'" class="btnLienMort" alt="'.$lien->getId().'" name="Signaler un lien mort"></li>');
+						}
+					}
+					$this->addElement('content', '</ul>'
+						. '<script>'
+						. "	$('.btnLienMort').click(function(){"
+						. "		$('#btnLienMort_'+$(this).attr('alt')).attr('src','style/loader_16.gif');"
+						. "		$.get('ajax.php?page=traitementLienMort&id='+$(this).attr('alt'), function(data) {"
+						. "			var result = eval('(' + data + ')');"
+						. "			$('#btnLienMort_'+result.id).remove();"
+						. "		});"
+						. "	});"
+						. '</script>'
+					);
 				}
+				
 			$this->addElement('content', '</div>');
 		
-			$liens = GestionLiens::getInstance()->getLiensLieu($ville->getId());
-			
-			if($liens) {
-				$this->addElement('content', '<span style="color:'.$this->couleur.'; font-size: 1.1em;">Liens utiles :</span>');
-				$this->addElement('content', '<ul id="liensLieu" style="margin-top: 5px;">');
-				foreach ($liens as $lien) {
-					if($lien instanceof Lien) {
-						$this->addElement('content', '<li id="lien_'.$lien->getId().'"><a href="'. $lien->getUrl() .'" target="_blank">'
-								. $lien->getNom() . '</a>&nbsp;<input type="image" src="style/delete.png" id="btnLienMort_'.$lien->getId().'" class="btnLienMort" alt="'.$lien->getId().'" name="Signaler un lien mort"></li>');
-					}
-				}
-				$this->addElement('content', '</ul>'
-					. '<script>'
-					. "	$('.btnLienMort').click(function(){"
-					. "		$('#btnLienMort_'+$(this).attr('alt')).attr('src','style/loader_16.gif');"
-					. "		$.get('ajax.php?page=traitementLienMort&id='+$(this).attr('alt'), function(data) {"
-					. "			var result = eval('(' + data + ')');"
-					. "			$('#btnLienMort_'+result.id).remove();"
-					. "		});"
-					. "	});"
-					. '</script>'
-				);
-			}
-			
 		$this->addElement('content', '</div>');
-		
-		$this->addElement('content', "<h1 style='color: ".$continent->getCouleur().";'>".$ville->getNom()."</h1>");
-		
-		$lieuxLies = GestionLieux::getInstance()->getLieuxLies($ville->getId(),'nom');
-		if($lieuxLies) {	
-			foreach ($lieuxLies as $lieu){
-				if($lieu instanceof Lieu) {
-					$photo = GestionPhotos::getInstance()->getLieuPhoto($lieu->getId());
-					$nbPhoto = GestionPhotos::getInstance()->getNombreLieuPhoto($lieu->getId());
-					$this->addElement('content', '<div class="conteneur">');
-						$this->addElement('content', '<div class="cadreGauche">');
-							$this->addElement('content', '<div class="cadrePhoto" id="'.$lieu->getId().'">');
-							$this->addElement('content', '<div class="nbPhoto">'.$nbPhoto.'</div>');	
-							$this->addElement('content', '<img src="'.$photo->getUrlPhotoMiniature(200,'L').'" width="200px" />');
-							$this->addElement('content', '</div>');
-						//	$this->addElement('content', $photo->getDatePriseVue().'<br/>&copy; '.$photo->getProprietaire());
-						$this->addElement('content', '</div>');
-						$this->addElement('content', '<div class="cadreTexte">');
-							$this->addElement('content', '<h1>'.$lieu->getPronom().' '.firstchartoupper($lieu->getNom()).'</h1>');
-							$this->addElement('content', '<a name="'.$lieu->getId().'"></a>');
-						$this->addElement('content', '</div>');
-					$this->addElement('content', '</div>');
-					
-				}
-			}
-		
-		}
 	}
 	
 	
@@ -967,55 +1005,72 @@ class Site {
 		$urlPays = new Url(true);
 		$urlPays->addParams(array('page' => 'pays', 'id' => $pays->getId()));
 		$this->addElement('filariane', '<a href="'.$urlPays->getUrl().'">'.$pays->getNom().'</a>');
-		$this->addElement('filariane', '');
-		if(strrpos($merveille->getCoordonnees(), ",") !== false) {
-			$coords = explode(',',$merveille->getCoordonnees());
-			$coords[0] = $coords[0] - 125;
-			$coords[1] = $coords[1] - 125;
-		}
-		else {
-			$coords = array(0,0);
-		}
-		$this->addElement('content', '<div id="infosVille">');
-			$this->addElement('content', '<div id="miniCarte" style="background-color: '.$continent->getCouleurOcean().';">');
-				$paysSVG = GestionPaysSVG::getInstance()->getPaysSVGPays($pays->getId());
-				if($paysSVG) {
-					$this->getCartePaysSVG($pays, array($merveille->getCx(),$merveille->getCy()));
-				}
-				else {
-					$this->addElement('content', '<img id="paysCarte" src="'.$pays->getUrlCarte().'" usemap="#mapPays" style="position: relative; left: -'.$coords[0].'px; top: -'.$coords[1].'px;"/>');
-					//affichage des Lieux
-					$this->addElement('content', '<map name="mapPays" id="mapPays" >');
-					$lieux = GestionLieux::getInstance()->getPaysLieux($pays->getId());
-					if($lieux){
-						foreach ($lieux as $lieu){
-							if($lieu instanceof Lieu){
-								if($lieu->getCoordonnees() || ($lieu->getCx() && $lieu->getCy())) {
-									$url = new Url();
-									$url->addParam('page', $lieu->getType());
-									$url->addParam('id', $lieu->getId());
-									$chaineUrl = 'href="'.$url->getUrl().'"';
-									if(!$lieu->hasLieuxLies()) {
-										$chaineUrl = '';
+		$urlMerveille = new Url(true);
+		$urlMerveille->addParams(array('page' => 'merveille', 'id' => $merveille->getId()));
+		$this->addElement('filariane', '<a href="'.$urlMerveille->getUrl().'">'.$merveille->getNom().'</a>');
+		
+		$this->addElement('content', "<div class='span12'><h1 style='color:".$continent->getCouleur().";'>".$merveille->getNom()."</h1></div>");
+		
+		$this->addElement('content', '<div class="row-fluid">');
+		
+			//la mini carte
+			
+			
+			
+			if(strrpos($merveille->getCoordonnees(), ",") !== false) {
+				$coords = explode(',',$merveille->getCoordonnees());
+				$coords[0] = $coords[0] - 125;
+				$coords[1] = $coords[1] - 125;
+			}
+			else {
+				$coords = array(0,0);
+			}
+			$this->addElement('content', '<div id="infosVille" class="offset8 span4">');
+				$this->addElement('content', '<div id="miniCarte" style="background-color: '.$continent->getCouleurOcean().';">');
+					$paysSVG = GestionPaysSVG::getInstance()->getPaysSVGPays($pays->getId());
+					if($paysSVG) {
+						$this->getCartePaysSVG($pays, array($merveille->getCx(),$merveille->getCy()));
+					}
+					else {
+						$this->addElement('content', '<img id="paysCarte" src="'.$pays->getUrlCarte().'" usemap="#mapPays" style="position: relative; left: -'.$coords[0].'px; top: -'.$coords[1].'px;"/>');
+						//affichage des Lieux
+						$this->addElement('content', '<map name="mapPays" id="mapPays" >');
+						$lieux = GestionLieux::getInstance()->getPaysLieux($pays->getId());
+						if($lieux){
+							foreach ($lieux as $lieu){
+								if($lieu instanceof Lieu){
+									if($lieu->getCoordonnees() || ($lieu->getCx() && $lieu->getCy())) {
+										$url = new Url();
+										$url->addParam('page', $lieu->getType());
+										$url->addParam('id', $lieu->getId());
+										$chaineUrl = 'href="'.$url->getUrl().'"';
+										if(!$lieu->hasLieuxLies()) {
+											$chaineUrl = '';
+										}
+										$this->addElement('content', '<area   shape="circle" coords="'.$lieu->getCoordonnees().',5" '.$chaineUrl.' alt="'.$lieu->getId().'">');
 									}
-									$this->addElement('content', '<area   shape="circle" coords="'.$lieu->getCoordonnees().',5" '.$chaineUrl.' alt="'.$lieu->getId().'">');
 								}
 							}
 						}
+						$this->addElement('content', '</map><img src="style/villeSelected.png" id="villeSelected" />');
+						$this->addElement('content','<input type="hidden" id="current" value="0"/>');
 					}
-					$this->addElement('content', '</map><img src="style/villeSelected.png" id="villeSelected" />');
-					$this->addElement('content','<input type="hidden" id="current" value="0"/>');
-				}
+				$this->addElement('content', '</div>');
 			$this->addElement('content', '</div>');
 		$this->addElement('content', '</div>');
 		
-		$this->addElement('content', "<h1 style='color:".$continent->getCouleur().";'>".$merveille->getNom()."</h1>");
+	//	$this->addElement('content', "<h1 style='color:".$continent->getCouleur().";'>".$merveille->getNom()."</h1>");
 
-		$this->addElement('content', '<div id="visioneuseM"></div>'
-			. '<script>'
-			. '$("#visioneuseM").html("<img id=\'loader\' src=\'style/loader_128.gif\' alt=\'Chargement...\'/>");'
-			. '$.get(\'ajax.php?page=getVisioneuse&idLieu='.$merveille->getId().'\', function(data) {'
-			. '	$("#visioneuseM").html(data);'
+		$this->addElement('content', '<div class="row-fluid">');
+			//ici la visioneuse
+			$this->addElement('content', '<div class="offset2 span8 thumbnail" id="visioContainer"></div>');
+		$this->addElement('content', '</div>');
+		
+		$this->addElement('content', '<script>'
+			. '$(document).ready(function(){'
+			. '	$.get(\'ajax.php?page=getNewVisioneuse&idLieu='.$merveille->getId().'\', function(data) {'
+			. '		$("#visioContainer").html(data);'
+			. '	});'
 			. '});'
 			. '</script>'
 		);
@@ -1026,16 +1081,50 @@ class Site {
 		$this->addElement('title', 'Plan des Métro');
 		$url = new Url(true);
 		$url->addParam('page', 'plansmetros');
+		//hard reset du filariane pour la page des plans 
+		$this->filariane = array();
 		$this->addElement('filariane', '<a href="'.$url->getUrl().'">Plan des Métro</a>');
 	
+		
+		$this->addElement('content', '<div class="span12"><h1>Plans des Métros</h1></div>');
+		
+		$this->addElement('content', '<div class="row-fluid">');
+		
+		$pays = GestionPays::getInstance()->getAllPays('nom');
+		
+		$listePays = '<div class="tabbable tabs-left" ><ul class="nav nav-tabs">';
+		
+		$pays_id = -1;
+		if(!is_null($this->id) and $this->id != 0) {
+			$pays_id = $this->id;
+		}
+		
+		foreach ($pays as $p) {
+			if($p instanceof Pays) {
+				$urlPays = new Url();
+				$urlPays->addParam('page', 'plansmetros');
+				$urlPays->addParam('id', $p->getId());
+				$class = "";
+				if($pays_id == $p->getId()) {
+					$class = "active";
+					$this->addElement('filariane', '<a href="'.$urlPays->getUrl().'">'.$p->getNom().'</a>');
+				}
+				$listePays .= '<li class="'.$class.'"><a href="'.$urlPays->getUrl().'">'.$p->getNom().'</a></li>';
+			}
+		}
+		
+		$listePays .= '</ul>';
+		
+		$this->addElement('content', $listePays);
+		
 		if(!is_null($this->id) and $this->id != 0) {
 			//on affiche les villes et liens du pays
 			$pays = GestionPays::getInstance()->getPays($this->id);
 			$this->addElement('title', $pays->getNom());
 			
-			$this->addElement('content', '<h1>Plans des Métros : '.$pays->getNom().'</h1>');
-			$this->addElement('content', '<div id="tableMetro">');
-			$this->addElement('content', '<table id="tableLiens">');
+			
+			$this->addElement('content', '<div id="tableMetro" class="tab-content">');
+			$this->addElement('content', '<table id="tableLiens" class="table table-striped table-condensed">');
 			
 			$villes = GestionLieux::getInstance()->getPaysLieuxByType($pays->getId(), 'ville', 'nom');
 			$tableLiens = '';
@@ -1057,14 +1146,14 @@ class Site {
 				$tableLiens .= '<tr><td>Pas de liens pour ce pays</td></tr>';
 			}
 			else {
-				$tableLiens = '<tr><th>Ville</th><th>Lien vers le Plan du Métro</th></tr>' . $tableLiens;
+				$tableLiens = '<tr><th>Ville</th><th>Lien vers le Plan du Métro</th><th></th></tr>' . $tableLiens;
 			}
 			
 			$this->addElement('content', $tableLiens);
 			
 			$this->addElement('content', '</table>');
 			
-			$this->addElement('content', '</ul>'
+			$this->addElement('content', ''
 				. '<script>'
 				. "	$('.btnLienMort').click(function(){"
 				. "		$('#btnLienMort_'+$(this).attr('alt')).html('<img src=\"style/loader_16.gif\"/>');"
@@ -1078,28 +1167,9 @@ class Site {
 			
 			$this->addElement('content', '</div>');
 		}
-		else {
-			$this->addElement('content', '<h1>Plans des Métros</h1>');
-			$this->addElement('content', 'Choisissez un pays :');
-		}
 		
+		$this->addElement('content', '</div></div>');
 		
-		$pays = GestionPays::getInstance()->getAllPays('nom');
-		
-		$listePays = '<ul>';
-		
-		foreach ($pays as $p) {
-			if($p instanceof Pays) {
-				$urlPays = new Url();
-				$urlPays->addParam('page', 'plansmetros');
-				$urlPays->addParam('id', $p->getId());
-				$listePays .= '<li><a href="'.$urlPays->getUrl().'">'.$p->getNom().'</a></li>';
-			}
-		}
-		
-		$listePays .= '<ul>';
-		
-		$this->addElement('content', $listePays);
 	}
 	
 	public function getFormulaireContact($titleDisplay = true){
@@ -1215,13 +1285,17 @@ class Site {
 					}
 					
 					
-					$this->addElement('content', '<div class="resultat">');
-						$photo = GestionPhotos::getInstance()->getLieuPhoto($lieu->getId());
-						$this->addElement('content','<div class="photoMin">');
-							$this->addElement('content', '<img src="'.$photo->getUrlPhotoMiniature(150, 'H').'"  >');
+					$this->addElement('content', '<div class="resultat row-fluid">');
+						$this->addElement('content', '<div class="span12">');
+							$photo = GestionPhotos::getInstance()->getLieuPhoto($lieu->getId());
+							$this->addElement('content','<div class="photoMin thumbnail">');
+								$this->addElement('content', '<img src="'.$photo->getUrlPhotoMiniature(150, 'H').'"  >');
+							$this->addElement('content','</div>');
+							$this->addElement('content','<div class="descriptif">');
+								$this->addElement('content', '<h2><a href="'.$urlLieu->getUrl().'#'.$lieu->getId().'">'.$lieu->getPronom().' '.$lieu->getNom().'</a></h2>');
+								$this->addElement('content', firstchartoupper($lieu->getType()).' de '.$pays);
+							$this->addElement('content','</div>');
 						$this->addElement('content','</div>');
-						$this->addElement('content', '<h2><a href="'.$urlLieu->getUrl().'#'.$lieu->getId().'">'.$lieu->getPronom().' '.$lieu->getNom().'</a></h2>');
-						$this->addElement('content', firstchartoupper($lieu->getType()).' de '.$pays);
 					$this->addElement('content', '</div>');
 				}
 			}

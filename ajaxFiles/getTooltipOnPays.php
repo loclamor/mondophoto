@@ -19,7 +19,7 @@ $(document).ready(function(){
 	if($('#currentLoaded').attr('value') != ".$lieu->getId()."){
 		$.get('ajax.php?page=listeLieuxLiesOnLieu&idLieu=".$lieu->getId()."', function(data) {
 			$('#tooltip').html(data);
-			$('#currentLoaded').attr('value') = ".$lieu->getId().";
+			$('#currentLoaded').attr('value',".$lieu->getId().");
 		});	
 	}
 });

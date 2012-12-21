@@ -23,6 +23,9 @@ if(isset($_GET['page'])){
 		case 'getVisioneuse':
 			require_once 'ajaxFiles/getVisioneuse.php';
 			break;
+		case 'getNewVisioneuse':
+			require_once 'ajaxFiles/getNewVisioneuse.php';
+			break;
 		case 'traitementUploadPhotoLieu' :
 			require_once 'ajaxFiles/trait_UploadPhotoLieu.php';
 			break;
