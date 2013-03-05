@@ -13,7 +13,7 @@ $site = new Site();
 		<link type="image/x-icon" href="style/favicon.ico" rel="shortcut icon"/>
 <!-- 	<link rel="stylesheet" media="screen" type="text/css" title="style" href="style/style.css" />  -->
 <!--	<link rel="stylesheet" media="screen" type="text/css" title="style" href="style/menu.css" />  -->
-		<link rel="stylesheet" media="screen" type="text/css" title="style" href="css/bootstrap.css" />
+		<link rel="stylesheet" media="screen" type="text/css" title="style" href="css/bootstrap.min.css" />
 		<link rel="stylesheet" media="screen" type="text/css" title="style" href="style/supplement.css" />
 		<link media="all" type="text/css" href="css/smoothness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
 		
@@ -27,7 +27,7 @@ $site = new Site();
 <!-- 		<script src="js/jquery.svgdom.js" type="text/javascript" language="javascript" ></script>
 		 jquery.lazyload.min.js-->
 		<script src="js/jquery.lazyload.min.js" type="text/javascript" language="javascript" ></script>
-		<script src="js/bootstrap.js" type="text/javascript" language="javascript" ></script>
+		<script src="js/bootstrap.min.js" type="text/javascript" language="javascript" ></script>
 		<?php if(APPLICATION_ENV == 'prod') {?>
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
