@@ -128,6 +128,11 @@ switch($page){
 		$url->addParam('page', 'miniaturize');
 		echo "<li><a href='".$url->getUrl()."'>Miniaturiser les images principales</a></li>";
 		
+		if(GestionMappemondePaysSVG::getInstance()->countMappemondePaysSVG() == 0) {
+			$url->addParam('page', 'loadMappemonde');
+			echo "<li><a href='".$url->getUrl()."'>Charger la mappemonde</a></li>";
+		}
+		
 		echo "</ul>";
 		
 		echo 'Server settings :<br/>post_max_size : ' . (ini_get('post_max_size')) . ' - ' . 'upload_max_filesize : ' . (ini_get('upload_max_filesize'));
@@ -238,9 +243,15 @@ switch($page){
 		break;
 	case 'instal' :
 		require_once 'administrationFiles/instal.php';
+		break;
 		
 	case 'newsCreation' :
 		require_once 'administrationFiles/newsCreation.php';
+		break;
+		
+	case 'loadMappemonde' :
+		require_once 'administrationFiles/loadMappemonde.php';
+		break;
 }
 
 if(!isset($_GET['noDisplay'])){
