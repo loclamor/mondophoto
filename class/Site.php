@@ -308,6 +308,7 @@ class Site {
 	
 		
 		$this->addElement('content', '<div id="mapmonde" class="span12">');
+			/*
 			$this->addElement('content', '<img src="images/carte-monde.png" usemap="#cartemonde" />');
 			$this->addElement('content', '<map name="cartemonde" >');
 				$url = new Url();
@@ -339,6 +340,23 @@ class Site {
 				$url->addParam('id', '7');
 				$this->addElement('content', '<area shape="poly" coords="158,240,171,221,184,211,222,221,257,253,304,275,249,387,238,417,257,424,254,440,194,419,179,326,142,274,148,257" href="'.$url->getUrl().'" alt="Amerique du Sud">');
 			$this->addElement('content', '</map>');
+			*/
+		
+			$paysMappemonde = GestionMappemondePaysSVG::getInstance()->getMappemondePaysSVG();
+			$height = "100%";
+			$width = "100%";
+			$viewbox = "10 10 297 170";
+			$this->addElement('content', '<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="'.$viewbox.'" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" height="'.$height.'" width="'.$width.'" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">');
+				$this->addElement('content', "<g>");
+				foreach ($paysMappemonde as $pays){
+					if($pays instanceof MappemondePaysSVG){
+						$fillColor = GestionContinents::getInstance()->getContinent(1)->getCouleur();
+						$this->addElement('content', '<path fill="'.$fillColor.'" stroke="black" stroke-width="0.1px" class="paysMappemonde" d="'.$pays->getCoordonnees().'" />');
+					}
+				}
+				$this->addElement('content', "</g>");
+			$this->addElement('content', "</svg>");
+		
 		$this->addElement('content', "</div>");
 		// les photos aleatoires
 		$this->addElement('content', '<ul id="alealieux" class="thumbnails">');
