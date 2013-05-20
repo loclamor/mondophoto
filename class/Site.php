@@ -66,7 +66,7 @@ class Site {
 				}
 			}
 			else {
-				//il faudra surement faire ici une vérif si on demande pas une page spéciale (ie. plansmetros) ou alors dans le else pays
+				//il faudra surement faire ici une vï¿½rif si on demande pas une page spï¿½ciale (ie. plansmetros) ou alors dans le else pays
 				$_GET['page'] = 'monde';
 			}
 		}
@@ -78,10 +78,10 @@ class Site {
 		if(isset($_GET['ville']))
 			unset($_GET['ville']);
 		
-		$this->couleur = '#D1D1FF'; //couleur par défault
+		$this->couleur = '#D1D1FF'; //couleur par dï¿½fault
 		
 		if(!$admin) {
-			//on gère l'enregistrement de la connexion
+			//on gï¿½re l'enregistrement de la connexion
 			$ip = $_SERVER["REMOTE_ADDR"];
 			$lastConnexion = GestionConnexions::getInstance()->getLastIpConnexions($ip);
 			if ($lastConnexion and ($lastConnexion->getMoment()+5*60) > time()) {
@@ -153,12 +153,12 @@ class Site {
 			$this->addElement('menu', "<li id='menuContinents' class=' btn-group'><div class='btn'><a href='".$urlAccueil->getUrl()."' >Monde </a></div><div class='btn dropdown-toggle btn-dropdown-continents' data-toggle='dropdown'><span class='caret'></span></div>".$listeContinents."</li>");
 			$this->addElement('menu', "<li class='divider-vertical'></li>");
 			$url->addParam('page', 'plansmetros');
-			$this->addElement('menu', "<li ><div class='btn'><a href='".$url->getUrl()."'>Plans des Métros</a></div></li>");
+			$this->addElement('menu', "<li ><div class='btn'><a href='".$url->getUrl()."'>Plans des MÃ©tros</a></div></li>");
 			
 			
 			
 			
-			//on crée les éléments généraux du footer
+			//on crï¿½e les ï¿½lï¿½ments gï¿½nï¿½raux du footer
 			$urlContact = new Url(true);
 			$urlContact->addParam('page', 'contact');
 			$this->addElement('foot', '<a class="contact" href="'.$urlContact->getUrl().'" target="_blank">Contact</a>');
@@ -169,14 +169,14 @@ class Site {
 			$this->addElement('foot', '&copy; 2012 MondoPhoto');
 			$this->addElement('foot', '<a href="http://www.d-maps.com" target="_blank">Cartes &copy; Daniel Dalet / d-maps.com</a>');
 			
-			//on vérifie que on a bien une page de demandée
+			//on vï¿½rifie que on a bien une page de demandï¿½e
 			if(isset($_GET['page']) and !empty($_GET['page'])){
 				$this->page = $_GET['page'];
 			}
 			else {
 				$this->page = 'monde';
 			}
-			//on vérifie ensuite que on a bien un ID si on affiche pas la liste des metros
+			//on vï¿½rifie ensuite que on a bien un ID si on affiche pas la liste des metros
 			$noId = array('contact', 'plansmetros', 'recherche'); //liste des pages sans ID
 			if(!in_array($this->page, $noId) or isset($_GET['id'])) {
 				if(isset($_GET['id']) and $_GET['id'] != ''){
@@ -222,7 +222,7 @@ class Site {
 					$this->getRecherche($_POST['query']);
 					break;
 				default:
-					//par défaut, on affiche l'accueil
+					//par dï¿½faut, on affiche l'accueil
 					$this->getMonde();
 			}
 			
@@ -253,13 +253,13 @@ class Site {
 			$nbAdmQuery = SQL::getInstance()->getNbAdmQuery();
 			$nbQuery = SQL::getInstance()->getNbQuery();
 			
-		//	$this->addElement('foot', $nbAdmQuery.'/'.$nbQuery.' requêtes');
+		//	$this->addElement('foot', $nbAdmQuery.'/'.$nbQuery.' requï¿½tes');
 			
 			$temps = microtime();
 			$temps = explode(' ', $temps);
 			$this->microtimeEnd = $temps[1] + $temps[0];
 			
-			$this->addElement('foot', 'page générée en '.round(($this->microtimeEnd - $this->microtimeStart),3).' secondes');
+			$this->addElement('foot', 'page gÃ©nÃ©rÃ©e en '.round(($this->microtimeEnd - $this->microtimeStart),3).' secondes');
 			
 		}
 		
@@ -346,12 +346,29 @@ class Site {
 			$height = "100%";
 			$width = "100%";
 			$viewbox = "10 10 297 170";
-			$this->addElement('content', '<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="'.$viewbox.'" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" height="'.$height.'" width="'.$width.'" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">');
+			$this->addElement('content', '<svg id="svg_mappemonde" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="'.$viewbox.'" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" height="'.$height.'" width="'.$width.'" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">');
 				$this->addElement('content', "<g>");
-				foreach ($paysMappemonde as $pays){
-					if($pays instanceof MappemondePaysSVG){
-						$fillColor = GestionContinents::getInstance()->getContinent(1)->getCouleur();
-						$this->addElement('content', '<path fill="'.$fillColor.'" stroke="black" stroke-width="0.1px" class="paysMappemonde" d="'.$pays->getCoordonnees().'" />');
+				foreach ($paysMappemonde as $paysM){
+					if($paysM instanceof MappemondePaysSVG){
+						$pays = ($paysM->getIdPays()!=null)?(GestionPays::getInstance()->getPays( $paysM->getIdPays())):null;
+						if( $pays instanceof Pays ){
+							$fillColor = "white";
+							$url = new Url();
+							$url->addParam('page', 'pays');
+							$url->addParam('id', $pays->getId());
+							
+							$tooltip = "<span class='pays' style='color:".GestionContinents::getInstance()->getContinent( $pays->getIdContinent() )->getCouleur().";'>";
+							$tooltip .= $pays->getNom();
+							$tooltip .= '</span>';
+							
+							$this->addElement('content','<a xlink:href="'.$url->getUrl().'">');
+								$this->addElement('content', '<path class="svg_mappemonde_pays" fill="'.$fillColor.'" stroke="black" stroke-width="0.1px" class="paysMappemonde" d="'.$paysM->getCoordonnees().'" name="'.$tooltip.'" data-id-pays="'.$pays->getId().'" />');
+							$this->addElement('content','</a>');
+						}
+						else {
+							$fillColor = GestionContinents::getInstance()->getContinent(1)->getCouleur();
+							$this->addElement('content', '<path class="svg_mappemonde_pays" fill="'.$fillColor.'" stroke="black" stroke-width="0.1px" class="paysMappemonde" d="'.$paysM->getCoordonnees().'" name=""/>');
+						}
 					}
 				}
 				$this->addElement('content', "</g>");
@@ -437,10 +454,10 @@ class Site {
 		$urlVip = new Url();
 		$lienVip = "";
 		
-		$texteAccueil = "<p>Ce site a pour but de réunir des photographies du monde entier sur une carte. Cela vous permettra, nous  l’espérons,  de voir en un clic ce qu’il y a à visiter dans un pays, dans une ville ou dans une région. Et pour vous aider dans vos futurs voyages, ce site réunit tous les métros des pays présents sur le site.</p>"
-			. "<p class='accueil-nouveau'><a href='./vip.php' target='_blank'>Devenez membre VIP</a> et contribuez à enrichir MondoPhoto !"
-			. "<p>N’hésitez pas à faire des remarques sur le site en cliquant sur le lien ".$lienContact."contact</a> et si vous le souhaitez vous pouvez devenir membre VIP  et ajouter vos photos sur le site tout en respectant les <a href='./CGU_MondoPhoto.pdf' target='_blank'>CGU</a>.</p>"
-			. "<p>Vous pouvez aussi nous ".$lienContact."contacter</a> pour demander de plus amples renseignements sur une ville, un monument, un plan de métro... et nous vous aiderons du mieux possible.</p>";
+		$texteAccueil = "<p>Ce site a pour but de rÃ©unir des photographies du monde entier sur une carte. Cela vous permettra, nous  l'espÃ©rons,  de voir en un clic ce qu'il y a Ã  visiter dans un pays, dans une ville ou dans une rÃ©gion. Et pour vous aider dans vos futurs voyages, ce site rÃ©unit tous les mÃ©tros des pays prÃ©sents sur le site.</p>"
+			. "<p class='accueil-nouveau'><a href='./vip.php' target='_blank'>Devenez membre VIP</a> et contribuez Ã  enrichir MondoPhoto !"
+			. "<p>N'hÃ©sitez pas Ã  faire des remarques sur le site en cliquant sur le lien ".$lienContact."contact</a> et si vous le souhaitez vous pouvez devenir membre VIP  et ajouter vos photos sur le site tout en respectant les <a href='./CGU_MondoPhoto.pdf' target='_blank'>CGU</a>.</p>"
+			. "<p>Vous pouvez aussi nous ".$lienContact."contacter</a> pour demander de plus amples renseignements sur une ville, un monument, un plan de mÃ©tro... et nous vous aiderons du mieux possible.</p>";
 		$this->addElement('content', '<div id="textAccueil">'.$texteAccueil.'</div>');
 	}
 	
@@ -858,13 +875,13 @@ class Site {
 		$this->addElement('content','</g>');
 		$this->addElement('content','</svg>');
 		
-		//on ajoute une fenêtre modale de visionnage pour chaque lieu
+		//on ajoute une fenï¿½tre modale de visionnage pour chaque lieu
 		if($addXlink and isset($lieuxVisio)){
 			foreach ($lieuxVisio as $idLieu){
 				$lieu = GestionLieux::getInstance()->getLieu($idLieu);
 				if($lieu and $lieu instanceof Lieu){
 					$this->addElement('content', '<div class="modal hide fade" id="visio_'.$lieu->getId().'">');
-  						$this->addElement('content', '<div class="modal-header"> <a class="close" data-dismiss="modal">×</a>');
+  						$this->addElement('content', '<div class="modal-header"> <a class="close" data-dismiss="modal">x</a>');
     						$this->addElement('content', '<h3>'.$lieu->getPronom().' '.firstchartoupper($lieu->getNom()).'</h3>');
   						$this->addElement('content', '</div>');
   						$this->addElement('content', '<div class="modal-body"></div>');
@@ -921,7 +938,7 @@ class Site {
 								$this->addElement('content', '<a name="'.$lieu->getId().'"></a>');
 								
 								$this->addElement('content', '<div class="modal hide fade" id="visio_'.$lieu->getId().'">');
-		  							$this->addElement('content', '<div class="modal-header"> <a class="close" data-dismiss="modal">×</a>');
+		  							$this->addElement('content', '<div class="modal-header"> <a class="close" data-dismiss="modal">x</a>');
 		    							$this->addElement('content', '<h3>'.$lieu->getPronom().' '.firstchartoupper($lieu->getNom()).'</h3>');
 		  							$this->addElement('content', '</div>');
 		  							$this->addElement('content', '<div class="modal-body"></div>');
@@ -1096,15 +1113,15 @@ class Site {
 	}
 	
 	public function getListePlansMetros() {
-		$this->addElement('title', 'Plan des Métro');
+		$this->addElement('title', 'Plan des MÃ©tro');
 		$url = new Url(true);
 		$url->addParam('page', 'plansmetros');
 		//hard reset du filariane pour la page des plans 
 		$this->filariane = array();
-		$this->addElement('filariane', '<a href="'.$url->getUrl().'">Plan des Métro</a>');
+		$this->addElement('filariane', '<a href="'.$url->getUrl().'">Plan des MÃ©tro</a>');
 	
 		
-		$this->addElement('content', '<div class="span12"><h1>Plans des Métros</h1></div>');
+		$this->addElement('content', '<div class="span12"><h1>Plans des MÃ©tros</h1></div>');
 		
 		$this->addElement('content', '<div class="row-fluid">');
 		
@@ -1164,7 +1181,7 @@ class Site {
 				$tableLiens .= '<tr><td>Pas de liens pour ce pays</td></tr>';
 			}
 			else {
-				$tableLiens = '<tr><th>Ville</th><th>Lien vers le Plan du Métro</th><th></th></tr>' . $tableLiens;
+				$tableLiens = '<tr><th>Ville</th><th>Lien vers le Plan du MÃ©tro</th><th></th></tr>' . $tableLiens;
 			}
 			
 			$this->addElement('content', $tableLiens);
@@ -1208,7 +1225,7 @@ class Site {
 		$P_verifBot = isset($_POST['verifBot'])?$_POST['verifBot']:'';
 		
 		if($P_nom == '' or $P_adresse_mail == '' or $P_text_contact == '' or $P_sujet == '' or $P_verifBot != 'deux'){
-			$P_verifBot = 'Résultat de la soustraction en lettres minuscule.';
+			$P_verifBot = 'RÃ©sultat de la soustraction en lettres minuscule.';
 			$form = '<form class="formContact" method="POST" action="">';
 			if($titleDisplay){
 				$form .= '<h2>Contactez nous</h2>';
@@ -1242,7 +1259,7 @@ class Site {
 				}
 			}
 			$message->enregistrer();
-			$this->addElement('content','Message envoyé');
+			$this->addElement('content','Message envoyÃ©');
 		}
 	}
 	
@@ -1256,7 +1273,7 @@ class Site {
 		$this->addElement('content','<div id="pageRecherche">');
 		$this->addElement('content', '<h1>Recherche de '.$recherche.'</h1>');
 		
-		//en premier lieu, il faut éliminer le pronom éventuel qui fausserait la recherche
+		//en premier lieu, il faut ï¿½liminer le pronom ï¿½ventuel qui fausserait la recherche
 		$pronoms = array('le ', 'la ', 'les', 'l\'');
 		
 		trim($recherche);
@@ -1274,7 +1291,7 @@ class Site {
 		}
 		
 
-		//affichage des résultats
+		//affichage des rï¿½sultats
 		
 		$lieux = GestionLieux::getInstance()->getLieuxLike(noSpecialChar2($recherche));
 		if($lieux) {
@@ -1320,7 +1337,7 @@ class Site {
 			
 		}
 		else {
-			$this->addElement('content', 'Pas de résultats.');
+			$this->addElement('content', 'Pas de rÃ©sultats.');
 		}
 		$this->addElement('content','</div>');
 	}

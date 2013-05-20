@@ -24,12 +24,12 @@ if(!isset($_GET['noDisplay'])){
 <?php 
 }
 //debug($_SERVER,true);
-//switch selon la page demandée
+//switch selon la page demandï¿½e
 $page = 'accueil';
 if(isset($_GET['page'])){
 	$page = $_GET['page'];
 }
-//vérification de la connection
+//vï¿½rification de la connection
 if(!isset($_SESSION['administration']['isConnect']) or $_SESSION['administration']['isConnect'] != 'true'){
 	if(isset($_POST['pwd']) and !empty($_POST['pwd'])) {
 		$page = 'traitementConnexion';
@@ -41,7 +41,7 @@ if(!isset($_SESSION['administration']['isConnect']) or $_SESSION['administration
 }
 if(!isset($_GET['noDisplay'])) {
 	$urlAccueil = new Url(true);
-	echo '<h1><a href="'.$urlAccueil->getUrl().'"><img src="./style/back_24.png" alt="retour" title="Retour à l\'accueil de l\'administration">&nbsp;Administration</a></h1>';
+	echo '<h1><a href="'.$urlAccueil->getUrl().'"><img src="./style/back_24.png" alt="retour" title="Retour ï¿½ l\'accueil de l\'administration">&nbsp;Administration</a></h1>';
 }
 switch($page){
 	case 'connexion':
@@ -57,19 +57,19 @@ switch($page){
 //		echo "<li><a href='".$url->getUrl()."'>Ajouter un Pays</a></li>";
 
 		$url->addParam('page', 'ajoutLieu');
-		echo "<li><a href='".$url->getUrl()."'>Ajouter un Lieu à un pays</a></li>";
+		echo "<li><a href='".$url->getUrl()."'>Ajouter un Lieu ï¿½ un pays</a></li>";
 
 		$url->addParam('page', 'ajoutLieuSVG');
-		echo "<li><a href='".$url->getUrl()."'>Ajouter un Lieu à un pays par triangulation</a></li>";
+		echo "<li><a href='".$url->getUrl()."'>Ajouter un Lieu ï¿½ un pays par triangulation</a></li>";
 		
 		$url->addParam('page', 'modifLieuSVG');
 		echo "<li><a href='".$url->getUrl()."'>Modifier un Lieu sur un pays par triangulation</a></li>";
 		
 		$url->addParam('page', 'ajoutLieuVille');
-		echo "<li><a href='".$url->getUrl()."'>Ajouter un Lieu à une ville</a></li>";
+		echo "<li><a href='".$url->getUrl()."'>Ajouter un Lieu ï¿½ une ville</a></li>";
 
 		$url->addParam('page', 'ajoutPhotoLieu');
-//		echo "<li><a href='".$url->getUrl()."'>Ajouter une Photo à un lieu</a></li>";
+//		echo "<li><a href='".$url->getUrl()."'>Ajouter une Photo ï¿½ un lieu</a></li>";
 
 		$url->addParam('page', 'modificationLieu');
 		echo "<li><a href='".$url->getUrl()."'>Modifier un Lieu</a></li>";
@@ -87,7 +87,7 @@ switch($page){
 		
 		
 		$url->addParam('page', 'gestionVip');
-		echo "<li><a href='".$url->getUrl()."'>Gérer les Utilisateur VIP</a></li>";
+		echo "<li><a href='".$url->getUrl()."'>Gï¿½rer les Utilisateur VIP</a></li>";
 		
 		$url->addParam('page', 'gestionPhotoVip');
 		$photosVip = GestionPhotosVip::getInstance()->getPhotosVip();
@@ -112,7 +112,7 @@ switch($page){
 				$chaineCount = '( '.$nbLiensMorts.' liens morts )';
 			}
 		}
-		echo "<li><a href='".$url->getUrl()."'>Tableau récapitulatif des Villes ".$chaineCount."</a></li>";
+		echo "<li><a href='".$url->getUrl()."'>Tableau rï¿½capitulatif des Villes ".$chaineCount."</a></li>";
 		
 		$url->addParam('page', 'listeMessages');
 		$msgNL = GestionMessageContact::getInstance()->getMessagesContactNonLu();
@@ -131,6 +131,10 @@ switch($page){
 		if(GestionMappemondePaysSVG::getInstance()->countMappemondePaysSVG() == 0) {
 			$url->addParam('page', 'loadMappemonde');
 			echo "<li><a href='".$url->getUrl()."'>Charger la mappemonde</a></li>";
+		}
+		else {
+			$url->addParam('page', 'setOnMappemonde');
+			echo "<li><a href='".$url->getUrl()."'>Placer des pays sur la mappemonde</a></li>";
 		}
 		
 		echo "</ul>";
@@ -251,6 +255,9 @@ switch($page){
 		
 	case 'loadMappemonde' :
 		require_once 'administrationFiles/loadMappemonde.php';
+		break;
+	case 'setOnMappemonde' :
+		require_once 'administrationFiles/setOnMappemonde.php';
 		break;
 }
 

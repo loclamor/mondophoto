@@ -23,7 +23,7 @@ if(!empty($_FILES['cartePays']['size'])
 	//	echo 'pays cree';
 	}
 	else {
-		//on récupère le pays existant
+		//on rï¿½cupï¿½re le pays existant
 		$pays = GestionPays::getInstance()->getPays((int)$_POST['idSelectPays']);
 	//	echo 'pays charge';
 	}
@@ -185,7 +185,7 @@ if(!empty($_FILES['cartePays']['size'])
 		}
 	}
 	$viewbox = '';
-	//dernière chose, on récupère les attributs de l'élément SVG pour conaitre le sens
+	//derniï¿½re chose, on rï¿½cupï¿½re les attributs de l'ï¿½lï¿½ment SVG pour conaitre le sens
 	$svgList = $dom->getElementsByTagName("svg");
 	if($svgList->item(0) instanceof DOMNode){
 		$svg = $svgList->item(0);
@@ -225,17 +225,17 @@ if(!empty($_FILES['cartePays']['size'])
 	<div id="tabs">
 		<ul>
 			<li id="1"><a href="#tabs-1">Selection du pays</a></li>
-			<li id="2"><a href="#tabs-2">Selection des pays étranger</a></li>
+			<li id="2"><a href="#tabs-2">Selection des pays ï¿½tranger</a></li>
 			<li id="3"><a href="#tabs-3">Nomage des villes</a></li>
 			<li id="4"><a href="#tabs-4">Validation</a></li>
 		</ul>
 		<div id="tabs-1">
-			<p>Cliquez sur le pays à ajouter</p>
+			<p>Cliquez sur le pays ï¿½ ajouter</p>
 			<input type="hidden" id="idPaysSVG" name="idPaysSVG" />
 		</div>
 		<div id="tabs-2">
-			<p>Cliquez sur le pays étranger à ajouter</p>
-			<div id="dialog-modal-stranger" title="Informations sur le pays étranger">
+			<p>Cliquez sur le pays ï¿½tranger ï¿½ ajouter</p>
+			<div id="dialog-modal-stranger" title="Informations sur le pays ï¿½tranger">
 				<select id="idPaysEtranger" name="idPaysEtranger" >
 					<option value="-1">Choisir...</option>
 				<?php 
@@ -268,15 +268,15 @@ if(!empty($_FILES['cartePays']['size'])
 			<div id="paysEtrangers"></div>
 		</div>
 		<div id="tabs-3">
-			<p>Cliquez sur la ville à ajouter</p>
+			<p>Cliquez sur la ville ï¿½ ajouter</p>
 			<div id="dialog-modal-ville" title="Informations sur la ville">
 				<select id="idVille" name="idVille" >
 					<option value="-1">Choisir...</option>
 					<option value="0">Nouvelle ville :</option>
 				<?php 
-					$villesExistantes = GestionLieux::getInstance()->getPaysLieuxByType($pays->getId(), 'ville','nom');
-					if($villesExistantes) {
-						foreach ($villesExistantes as $ville) {
+					$allPays = GestionLieux::getInstance()->getPaysLieuxByType($pays->getId(), 'ville','nom');
+					if($allPays) {
+						foreach ($allPays as $ville) {
 							if($ville instanceof Lieu) {
 							
 								echo '<option value="'.$ville->getId().'">'.$ville->getNom().'</option>';
@@ -332,7 +332,7 @@ if(!empty($_FILES['cartePays']['size'])
 								$('#idPaysEtranger').val('-1');
 							},
 							Valider: function() {
-								// vérification selection
+								// vï¿½rification selection
 								if($('#idPaysEtranger').val() != '-1') {
 									$('#'+$('#currentPathId').attr('value')).attr('fill','<?php echo GestionContinents::getInstance()->getContinent($pays->getIdContinent())->getCouleur();?>');
 									var content = '<input type="hidden" name="idStrangerSVG[]" value="'+$('#currentPathId').attr('value')+'/'+$('#idPaysEtranger').val()+'"/>';
@@ -369,7 +369,7 @@ if(!empty($_FILES['cartePays']['size'])
 								$('#idVille').val('-1');
 							},
 							Valider: function() {
-								// vérification selection
+								// vï¿½rification selection
 								if($('#idVille').val() != '-1') {
 									if($('#idVille').val() != '0') {
 										//cas pas nouvelle ville
@@ -427,7 +427,7 @@ if(!empty($_FILES['cartePays']['size'])
 			if($('#idPaysSVG').attr('value') != '') {
 				$('form').submit();
 			/*	if($('.ville').length > 0){
-					alert('Il reste des villes à placer.');
+					alert('Il reste des villes ï¿½ placer.');
 				}
 				else {
 					alert('ok');
@@ -435,7 +435,7 @@ if(!empty($_FILES['cartePays']['size'])
 				}	*/
 			}
 			else {
-				alert('Le pays de la carte n\'a pas été séléctioné.');
+				alert('Le pays de la carte n\'a pas ï¿½tï¿½ sï¿½lï¿½ctionï¿½.');
 			}
 		});
 	});

@@ -8,7 +8,7 @@ $site = new Site();
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title><?php echo $site->getTitle();?></title>
 		<link type="image/x-icon" href="style/favicon.ico" rel="shortcut icon"/>
 <!-- 	<link rel="stylesheet" media="screen" type="text/css" title="style" href="style/style.css" />  -->
@@ -99,7 +99,7 @@ $site = new Site();
 			</div>
 		</nav>
 		<div class="row-fluid filariane">
-			<div id="filariane" class="span12">Vous êtes ici : <?php echo $site->getFilAriane();?></div>
+			<div id="filariane" class="span12">Vous Ãªtes ici : <?php echo $site->getFilAriane();?></div>
 		</div>
 		<div id="content" class="row-fluid">
 			<div class="span12 content-container">
@@ -181,6 +181,21 @@ $site = new Site();
 					$('#tooltip').addClass('tooltipShow');
 				}
 			} 
+		});
+
+		$(".svg_mappemonde_pays").mousemove(function(e) {
+			$(".svg_mappemonde_pays").attr('stroke-width','0.1px');
+			$(".svg_mappemonde_pays").attr('stroke','black');
+			$(".svg_mappemonde_pays").attr('style','z-index: 0;');
+
+			$(this).attr('stroke-width','0.7px');
+			$(this).attr('stroke','rgba(82, 168, 236, 0.8)');
+			$(this).attr('style','z-index: 100;');
+		});
+		$(".svg_mappemonde_pays").mouseleave(function(){
+			$(".svg_mappemonde_pays").attr('stroke-width','0.1px');
+			$(".svg_mappemonde_pays").attr('stroke','black');
+			$(".svg_mappemonde_pays").attr('style','z-index: 0;');
 		});
 
 		$("circle.ville, circle.merveille, circle.monument").live('mousemove',function(event) {
@@ -265,7 +280,7 @@ $site = new Site();
 							
 						},
 						Envoyer: function() {
-							// vérifications
+							// vï¿½rifications
 							if($('#nom').val() != ''){
 								if($('#adresse_mail').val() != ''){
 									if($('#sujet').val() != ''){
@@ -281,7 +296,7 @@ $site = new Site();
 											$.post("ajax.php?page=traitementPostMessageContact", { nom: Pnom, adresse_mail: Pmail, sujet: Psujet, text_contact: Ptext, verifBot: PverifBot }, function(data) {
 												var result = eval('(' + data + ')');
 												if(result.res == "done"){
-													$('#dialog-contact').html('<div><img src="style/check.png"/> Message envoyé</div>');
+													$('#dialog-contact').html('<div><img src="style/check.png"/> Message envoyÃ©</div>');
 												}
 												else {
 													$('#dialog-contact').html('<div><img src="style/warning.png"/> Erreur lors de l\'envoie</div>');

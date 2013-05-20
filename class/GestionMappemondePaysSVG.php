@@ -31,7 +31,12 @@ class GestionMappemondePaysSVG {
 	}
 	
 	
-	
+	/**
+	 * 
+	 * @param type $orderby
+	 * @param type $desc
+	 * @return Array<MappemondePaysSVG>
+	 */
 	public function getMappemondePaysSVG($orderby = 'id', $desc = false) {
 		$desc = $desc?' DESC':' ASC';
 		if(!is_null($orderby) && !empty($orderby)) {

@@ -100,6 +100,10 @@ if(isset($_GET['page'])){
 		case 'getPhotosLieu' :
 			require_once 'ajaxFiles/getPhotosLieu.php';
 			break;
+		
+		case 'updateSVGMap' :
+			require_once 'ajaxFiles/updateSVGMap.php';
+			break;
 	}
 	//visualiser le loader une petite seconde...
 	//for($i=0;$i<10000000;$i++){}
